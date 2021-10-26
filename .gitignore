@@ -1,0 +1,5 @@
+# Ignore the config gile
+config.yaml
+
+# Ignore the vagrant directory
+/.vagrant
