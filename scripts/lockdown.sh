@@ -19,7 +19,7 @@ sudo firewall-cmd --permanent --new-zone=lab
 sudo firewall-cmd --reload
 sudo firewall-cmd --set-default-zone=lab
 sudo firewall-cmd --set-target DROP --permanent
-sudo firewall-cmd --permanent --zone=lab --add-rich-rule="rule family=ipv4 source address=$2 service name=ssh log prefix='SSH Access' level='notice' accept"
+sudo firewall-cmd --permanent --zone=lab --add-rich-rule="rule family=ipv4 source address=$(awk -F"." '{print $1"."$2"."$3".0/24"}'<<<$2) service name=ssh accept"
 sudo firewall-cmd --reload
 sudo firewall-cmd --list-all
 

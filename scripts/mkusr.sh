@@ -9,7 +9,7 @@ else
   echo "%$1 ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$1
   echo "User $1 was created."
   sudo mkdir /home/$1/.ssh -p
-  sudo cat /home/vagrant/id_rsa.pub >> /home/$1/.ssh/authorized_keys
+  sudo cat /home/vagrant/id_rsa.pub > /home/$1/.ssh/authorized_keys
   sudo rm /home/vagrant/id_rsa.pub
-  sudo chown -R $1:$1 /home/$1/.ssh
+  sudo chown -R $1:$1 /home/$1
 fi

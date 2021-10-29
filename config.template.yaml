@@ -1,0 +1,14 @@
+---
+configs:
+  use: default
+  default:
+    box: rockylinux/8             # The Base Box, don't recommend changing it
+    version: 4.0.0                # Box version, as updated from time to time
+    hostname: YOUR_HOST           # The hostname of the vm you are creating
+    ram: 4096                     # The virtual ram to allocate the vm
+    cores: 2                      # The virtual cores to allocate the bm
+    private_ip: 192.168.33.10     # The private IP you wish to assign the box, really it can be anything
+    user: YOUR_USER_NAME          # The username to create on the vm
+    code-srv-pass: YOUR_PASSWORD  # The password you will use to log into code-server
+    node_version: 14              # The nodejs version to install, valid options are: 10, 12, 13, or 14
+    public_key_path: C:/Users/YOUR_USER_NAME/.ssh/id_rsa.pub  # Path to the public key which will be hoisted to the vm
