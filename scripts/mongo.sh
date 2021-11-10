@@ -14,7 +14,7 @@ EOL
 sudo dnf install mongodb-org -y
 
 # Configure IP binding
-sudo sed -i "s/bindIp: 127.0.0.1/bindIp: $1/g" /etc/mongod.conf
+sudo sed -i "s/bindIp: 127.0.0.1/bindIp: 127.0.0.1,$1/g" /etc/mongod.conf
 
 # Configure mongoDB to run as a service
 sudo systemctl enable --now mongod
