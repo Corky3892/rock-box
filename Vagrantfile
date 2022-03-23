@@ -44,11 +44,11 @@ Vagrant.configure("2") do |config|
   # Run Provisioning scripts
   config.vm.provision "file", source: vagrant_config['public_key_path'], destination: "~/"
   config.vm.provision :shell, path: "./scripts/mkusr.sh", :args => vagrant_config['user']
-  config.vm.provision :shell, path: "./scripts/lockdown.sh", :args => [vagrant_config['user'], vagrant_config['private_ip']]
-  config.vm.provision :shell, path: "./scripts/toolkit.sh"
-  config.vm.provision :shell, path: "./scripts/codeserver.sh", :args => [
-    vagrant_config['user'], vagrant_config['code-srv-pass'], vagrant_config['private_ip']
-  ]
-  config.vm.provision :shell, path: "./scripts/nodejs.sh", :args => vagrant_config['node_version']
-  config.vm.provision :shell, path: "./scripts/mongo.sh", :args => vagrant_config['private_ip']
+  # config.vm.provision :shell, path: "./scripts/lockdown.sh", :args => [vagrant_config['user'], vagrant_config['private_ip']]
+  # config.vm.provision :shell, path: "./scripts/toolkit.sh"
+  # config.vm.provision :shell, path: "./scripts/codeserver.sh", :args => [
+  #   vagrant_config['user'], vagrant_config['code-srv-pass'], vagrant_config['private_ip']
+  # ]
+  # config.vm.provision :shell, path: "./scripts/nodejs.sh", :args => vagrant_config['node_version']
+  # config.vm.provision :shell, path: "./scripts/mongo.sh", :args => vagrant_config['private_ip']
 end

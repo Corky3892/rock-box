@@ -28,11 +28,11 @@ git clone https://github.com/Corky3892/rock-box.git .
 # Generate a new ssh_keypair (can skip if you already have one)
 ssh-keygen
 
-# Create config.yaml
-mv config.template.yaml config.yaml
+# Create config.yaml from the template
+cp config.template.yaml config.yaml
 
 # Update config.yaml
-# User your favorite text editor
+# Use your favorite text editor
 
 # Provision vagrant, this can take a while
 vagrant up
