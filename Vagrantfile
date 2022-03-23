@@ -15,6 +15,12 @@ Vagrant.require_version ">= 2.2.18"
 # Configure the vagrant machine
 Vagrant.configure("2") do |config|
 
+  # config.ssh.username = "cconnor"
+  # config.ssh.connect_timeout = 3
+  # config.ssh.dsa_authentication = false
+  # config.ssh.private_key_path = "~/.ssh/id_rsa"
+  # config.ssh.host = "192.168.33.10"
+
   # Use the official Rocky Linux base box
   config.vm.box = vagrant_config['box']
   config.vm.box_version = vagrant_config['version']
@@ -29,6 +35,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder '.', '/vagrant', disabled: true
 
   # Sync vs-code settings syncing 1001 being the UID of the first created user, ensure mkuser runs as the first provisioning script. 
+  Dir.mkdir('./.config') unless File.exists?('./.config')
   config.vm.synced_folder './.config', "/home/#{vagrant_config['private_ip']}/.config", :owner => 1001, :group => 1001  
 
   # configure the machine using virtualBoxp
@@ -44,7 +51,7 @@ Vagrant.configure("2") do |config|
   # Run Provisioning scripts
   config.vm.provision "file", source: vagrant_config['public_key_path'], destination: "~/"
   config.vm.provision :shell, path: "./scripts/mkusr.sh", :args => vagrant_config['user']
-  # config.vm.provision :shell, path: "./scripts/lockdown.sh", :args => [vagrant_config['user'], vagrant_config['private_ip']]
+  config.vm.provision :shell, path: "./scripts/lockdown.sh", :args => [vagrant_config['user'], vagrant_config['private_ip']]
   # config.vm.provision :shell, path: "./scripts/toolkit.sh"
   # config.vm.provision :shell, path: "./scripts/codeserver.sh", :args => [
   #   vagrant_config['user'], vagrant_config['code-srv-pass'], vagrant_config['private_ip']

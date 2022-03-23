@@ -13,6 +13,7 @@ else
 fi
 
 # Lockdown the firewall
+echo "Starting lockdown of firewall..."
 sudo systemctl start firewalld
 sudo systemctl enable firewalld
 sudo firewall-cmd --permanent --new-zone=lab
@@ -20,8 +21,11 @@ sudo firewall-cmd --reload
 sudo firewall-cmd --set-default-zone=lab
 sudo firewall-cmd --set-target DROP --permanent
 sudo firewall-cmd --permanent --zone=lab --add-rich-rule="rule family=ipv4 source address=$(awk -F"." '{print $1"."$2"."$3".0/24"}'<<<$2) service name=ssh accept"
+sudo firewall-cmd --permanent --zone=lab --add-rich-rule="rule family=ipv4 source address=10.0.2.2 service name=ssh accept"
 sudo firewall-cmd --reload
 sudo firewall-cmd --list-all
 
 # To - Do
   # Change the default root password
+
+

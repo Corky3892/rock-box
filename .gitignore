@@ -3,6 +3,3 @@ config.yaml
 
 # Ignore the vagrant directory
 /.vagrant
-
-# Ignore the config directory
-/.config/*
