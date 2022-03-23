@@ -22,8 +22,8 @@ This assumes you are using bash or a bash-like terminal [Git SCM](https://git-sc
 mkdir ~/boxes/{YOUR_BOX_BAME} -p
 cd ~/boxes/{YOUR_BOX_NAME}
 
-# Clone the Rock-Box project
-git clone https://github.com/Corky3892/rock-box.git
+# Clone the Rock-Box project into the current working directory
+git clone https://github.com/Corky3892/rock-box.git .
 
 # Generate a new ssh_keypair (can skip if you already have one)
 ssh-keygen
