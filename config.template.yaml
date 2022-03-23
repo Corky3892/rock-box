@@ -12,3 +12,4 @@ configs:
     code-srv-pass: YOUR_PASSWORD  # The password you will use to log into code-server
     node_version: 16              # The nodejs version to install, valid options are: 10, 12, 13, 14, 16, 16-epel (see: dnf module list nodejs)
     public_key_path: C:/Users/YOUR_USER_NAME/.ssh/id_rsa.pub  # Path to the public key which will be hoisted to the vm
+    private_key_path: C:/Users/YOUR_USER_NAME/.ssh/id_rsa     # Path to the private key to use to connect with ssh

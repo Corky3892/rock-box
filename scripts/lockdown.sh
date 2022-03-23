@@ -27,5 +27,5 @@ sudo firewall-cmd --list-all
 
 # To - Do
   # Change the default root password
-
+  # Remove the vagrant user
 

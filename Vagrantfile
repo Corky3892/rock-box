@@ -8,6 +8,7 @@ require 'yaml'
 current_dir    = File.dirname(File.expand_path(__FILE__))
 configs        = YAML.load_file("#{current_dir}/config.yaml")
 vagrant_config = configs['configs'][configs['configs']['use']]
+VAGRANT_CMD    = ARGV[0]
 
 # This provisioner was developed using 2.2.18 - untested on older version
 Vagrant.require_version ">= 2.2.18"
@@ -15,11 +16,11 @@ Vagrant.require_version ">= 2.2.18"
 # Configure the vagrant machine
 Vagrant.configure("2") do |config|
 
-  # config.ssh.username = "cconnor"
-  # config.ssh.connect_timeout = 3
-  # config.ssh.dsa_authentication = false
-  # config.ssh.private_key_path = "~/.ssh/id_rsa"
-  # config.ssh.host = "192.168.33.10"
+  # If the box has already been intialized then connect using the created user
+  if File.exists?('.initialized')
+    config.ssh.username = vagrant_config['user']
+    config.ssh.private_key_path = vagrant_config['private_key_path']
+  end
 
   # Use the official Rocky Linux base box
   config.vm.box = vagrant_config['box']
@@ -38,7 +39,7 @@ Vagrant.configure("2") do |config|
   Dir.mkdir('./.config') unless File.exists?('./.config')
   config.vm.synced_folder './.config', "/home/#{vagrant_config['private_ip']}/.config", :owner => 1001, :group => 1001  
 
-  # configure the machine using virtualBoxp
+  # Configure the machine using virtualBox
   config.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
     vb.gui = false
@@ -48,10 +49,28 @@ Vagrant.configure("2") do |config|
     vb.cpus = vagrant_config['cores']
   end
 
-  # Run Provisioning scripts
-  config.vm.provision "file", source: vagrant_config['public_key_path'], destination: "~/"
-  config.vm.provision :shell, path: "./scripts/mkusr.sh", :args => vagrant_config['user']
-  config.vm.provision :shell, path: "./scripts/lockdown.sh", :args => [vagrant_config['user'], vagrant_config['private_ip']]
+  # On destroy remove the .initialized file if it exists
+  config.trigger.before :destroy do   
+    File.delete('.initialized') if File.exists?('.initialized')
+  end
+
+  # ------------------------
+  # ------PROVISIONING------
+  # ------------------------
+
+  # If the box has not yet been initialized then perform those steps (this can only be done once)
+  unless File.exists?('.initialized')
+    config.vm.provision "file", source: vagrant_config['public_key_path'], destination: "~/"
+    config.vm.provision :shell, path: "./scripts/mkusr.sh", :args => vagrant_config['user']
+    config.vm.provision :shell, path: "./scripts/lockdown.sh", :args => [vagrant_config['user'], vagrant_config['private_ip']]
+    
+    if VAGRANT_CMD == 'up'
+      puts 'Hello Friend'
+      File.open(".initialized", "w") {}
+    end
+  end
+  
+
   # config.vm.provision :shell, path: "./scripts/toolkit.sh"
   # config.vm.provision :shell, path: "./scripts/codeserver.sh", :args => [
   #   vagrant_config['user'], vagrant_config['code-srv-pass'], vagrant_config['private_ip']

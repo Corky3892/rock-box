@@ -3,3 +3,6 @@ config.yaml
 
 # Ignore the vagrant directory
 /.vagrant
+
+# A file which is generated upon succesfull initialization
+.initialized

@@ -64,7 +64,6 @@ configs:
 
 ## To - Do
   1. Improve `lockdown.sh` to change the root password.
-  2. Improve `lockdown.sh` to limit outbound traffic to install repos only.
+  2. Improve `lockdown.sh` to remove the default vagrant account and all references to it in the filesystem..
   3. Write `datetime.sh` with NTP for Time Syncronization.
   4. Write `disableipv6.sh` to disable IPv6.
-  5. Write `rmuser.sh` to remove the default vagrant user and all references to it in the filesystem.
