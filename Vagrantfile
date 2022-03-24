@@ -9,8 +9,8 @@ current_dir    = File.dirname(File.expand_path(__FILE__))
 configs        = YAML.load_file("#{current_dir}/config.yaml")
 vagrant_config = configs['configs'][configs['configs']['use']]
 
-VAGRANT_CMD = ARGV[0]
-VAGRANT_EXPERIMENTAL = "typed_triggers"
+# Make sure a config dir exists since it is needed for folder syncing
+Dir.mkdir('./.config') unless File.exists?('./.config')
 
 # This provisioner was developed using 2.2.18 - untested on older version
 Vagrant.require_version ">= 2.2.18"
@@ -38,7 +38,6 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder '.', '/vagrant', disabled: true
 
   # Sync vs-code settings syncing 1001 being the UID of the first created user, ensure mkuser runs as the first provisioning script. 
-  Dir.mkdir('./.config') unless File.exists?('./.config')
   config.vm.synced_folder './.config', "/home/#{vagrant_config['private_ip']}/.config", :owner => 1001, :group => 1001  
 
   # Configure the machine using virtualBox
