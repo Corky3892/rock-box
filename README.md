@@ -7,6 +7,9 @@ Rock Box is a set of security minded provisioning scripts built on top of Vagran
 
 The ultimate goal is to create a secure Lab to run local development environments, play around with other new software or otherwise mess around in Rocky Linux.
 
+**A note on shared folders**
+Vagrant supports a number of different options to sync files and folders from the Host <--> Guest. The exact usage of each of these will depend on the host system and the virtualization provider. At best these implementations are buggy and require hacky workarounds, at worst they open up your host to potential exploits. Given that the stated objective of this box is to have a secure lab the inclusion of shared folders has been omitted.
+
 ## Bootstrapping
 Please see the below guide to get started using the Rock-Box.
 
@@ -38,7 +41,7 @@ cp config.template.yaml config.yaml
 vagrant up
 
 # Connect
-ssh YOUR_USER_NAME@YOUR_PRIVATE_IP
+vagrant ssh
 ```
 
 Go ahead and open your browser and navigate to your private IP, on port 8080 (eg: 192.168.33.10:8080) and enter the password you set up.
@@ -58,8 +61,9 @@ configs:
     private_ip: 192.168.33.10     # The private IP you wish to assign the box, really it can be anything
     user: YOUR_USER_NAME          # The username to create on the vm
     code-srv-pass: YOUR_PASSWORD  # The password you will use to log into code-server
-    node_version: 14              # The nodejs version to install, valid options are: 10, 12, 13, or 14
+    node_version: 16              # The nodejs version to install, valid options are: 10, 12, 13, 14, 16, 16-epel (see: dnf module list nodejs)
     public_key_path: C:/Users/YOUR_USER_NAME/.ssh/id_rsa.pub  # Path to the public key which will be hoisted to the vm
+    private_key_path: C:/Users/YOUR_USER_NAME/.ssh/id_rsa     # Path to the private key to use to connect with ssh
 ```
 
 ## To - Do

@@ -6,6 +6,3 @@ config.yaml
 
 # A file which is generated upon succesfull initialization
 .initialized
-
-# Ignore the .config directory
-/.config
