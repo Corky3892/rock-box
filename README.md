@@ -7,7 +7,7 @@ Rock Box is a set of security minded provisioning scripts built on top of Vagran
 
 The ultimate goal is to create a secure Lab to run local development environments, play around with other new software or otherwise mess around in Rocky Linux.
 
-##### A note on shared folders
+#### A note on shared folders
 Vagrant supports a number of different options to sync files and folders from the Host <--> Guest. The exact usage of each of these will depend on the host system and the virtualization provider. At best these implementations are buggy and require hacky workarounds, at worst they open up your host to potential exploits. Given that the stated objective of this box is to have a secure lab the inclusion of shared folders has been omitted.
 
 ## Bootstrapping
