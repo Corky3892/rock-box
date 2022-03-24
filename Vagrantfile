@@ -8,7 +8,9 @@ require 'yaml'
 current_dir    = File.dirname(File.expand_path(__FILE__))
 configs        = YAML.load_file("#{current_dir}/config.yaml")
 vagrant_config = configs['configs'][configs['configs']['use']]
-VAGRANT_CMD    = ARGV[0]
+
+VAGRANT_CMD = ARGV[0]
+VAGRANT_EXPERIMENTAL = "typed_triggers"
 
 # This provisioner was developed using 2.2.18 - untested on older version
 Vagrant.require_version ">= 2.2.18"
@@ -50,8 +52,15 @@ Vagrant.configure("2") do |config|
   end
 
   # On destroy remove the .initialized file if it exists
-  config.trigger.before :destroy do   
-    File.delete('.initialized') if File.exists?('.initialized')
+  config.trigger.after :destroy do |trigger|
+    trigger.info = "Removing .initialized file."
+    trigger.run = {inline: 'rm .initialized'}    
+  end
+
+  # On up, provision create the initialized file
+  config.trigger.after [:up, :provision] do |trigger|
+    trigger.info = "Creating .initialized file."
+    trigger.run = {inline: 'touch .initialized'}
   end
 
   # ------------------------
@@ -64,17 +73,12 @@ Vagrant.configure("2") do |config|
     config.vm.provision :shell, path: "./scripts/mkusr.sh", :args => vagrant_config['user']
     config.vm.provision :shell, path: "./scripts/lockdown.sh", :args => [vagrant_config['user'], vagrant_config['private_ip']]
     
-    if VAGRANT_CMD == 'up'
-      puts 'Hello Friend'
-      File.open(".initialized", "w") {}
-    end
   end
-  
+  config.vm.provision :shell, path: "./scripts/toolkit.sh"
+  config.vm.provision :shell, path: "./scripts/codeserver.sh", :args => [
+    vagrant_config['user'], vagrant_config['code-srv-pass'], vagrant_config['private_ip']
+  ]
+  config.vm.provision :shell, path: "./scripts/nodejs.sh", :args => vagrant_config['node_version']
+  config.vm.provision :shell, path: "./scripts/mongo.sh", :args => vagrant_config['private_ip']
 
-  # config.vm.provision :shell, path: "./scripts/toolkit.sh"
-  # config.vm.provision :shell, path: "./scripts/codeserver.sh", :args => [
-  #   vagrant_config['user'], vagrant_config['code-srv-pass'], vagrant_config['private_ip']
-  # ]
-  # config.vm.provision :shell, path: "./scripts/nodejs.sh", :args => vagrant_config['node_version']
-  # config.vm.provision :shell, path: "./scripts/mongo.sh", :args => vagrant_config['private_ip']
 end
