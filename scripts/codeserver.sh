@@ -1,7 +1,7 @@
 # !/bin/bash
 
 # Install code-server 
-curl -fsSL https://code-server.dev/install.sh | sh
+curl -fsSL https://code-server.dev/install.sh | sh -s --version 4.1.0
 
 # Set to run as a service
 sudo systemctl enable --now code-server@$1
