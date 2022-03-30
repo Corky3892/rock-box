@@ -59,13 +59,10 @@ configs:
     ram: 4096                     # The virtual ram to allocate the vm
     cores: 2                      # The virtual cores to allocate the bm
     private_ip: 192.168.33.10     # The private IP you wish to assign the box, really it can be anything
+    timezone: America/New_York    # The timezone to assign the vm
     user: YOUR_USER_NAME          # The username to create on the vm
     code-srv-pass: YOUR_PASSWORD  # The password you will use to log into code-server
     node_version: 16              # The nodejs version to install, valid options are: 10, 12, 13, 14, 16, 16-epel (see: dnf module list nodejs)
     public_key_path: C:/Users/YOUR_USER_NAME/.ssh/id_rsa.pub  # Path to the public key which will be hoisted to the vm
     private_key_path: C:/Users/YOUR_USER_NAME/.ssh/id_rsa     # Path to the private key to use to connect with ssh
 ```
-
-## To - Do
-  1. Improve `lockdown.sh` to change the root password.
-  2. Improve `lockdown.sh` to remove the default vagrant account and all references to it in the filesystem..
