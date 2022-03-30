@@ -69,13 +69,13 @@ Vagrant.configure("2") do |config|
     config.vm.provision :shell, path: "./scripts/mkusr.sh", :args => vagrant_config['user']
     config.vm.provision :shell, path: "./scripts/lockdown.sh", :args => [vagrant_config['user'], vagrant_config['private-ip']]  
   end
-  # config.vm.provision :shell, path: "./scripts/toolkit.sh"
-  # config.vm.provision :shell, path: "./scripts/disableipv6.sh"
-  # config.vm.provision :shell, path: "./scripts/datetime.sh", :args => vagrant_config['timezone']
-  # config.vm.provision :shell, path: "./scripts/codeserver.sh", :args => [
-  #   vagrant_config['user'], vagrant_config['code-srv-pass'], vagrant_config['private-ip']
-  # ]
-  # config.vm.provision :shell, path: "./scripts/nodejs.sh", :args => vagrant_config['node-version']
-  # config.vm.provision :shell, path: "./scripts/mongo.sh", :args => vagrant_config['private-ip']
+  config.vm.provision :shell, path: "./scripts/toolkit.sh"
+  config.vm.provision :shell, path: "./scripts/disableipv6.sh"
+  config.vm.provision :shell, path: "./scripts/datetime.sh", :args => vagrant_config['timezone']
+  config.vm.provision :shell, path: "./scripts/codeserver.sh", :args => [
+    vagrant_config['user'], vagrant_config['code-srv-pass'], vagrant_config['private-ip']
+  ]
+  config.vm.provision :shell, path: "./scripts/nodejs.sh", :args => vagrant_config['node-version']
+  config.vm.provision :shell, path: "./scripts/mongo.sh", :args => vagrant_config['private-ip']
   config.vm.provision :shell, path: "./scripts/rmuser.sh"
 end
