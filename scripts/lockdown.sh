@@ -3,7 +3,7 @@
 # Lockdown ssh access to a target user.
 if id "$1" &>/dev/null; then
   sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd_config
-  sudo echo "" >> /etc/ssh/sshd_config
+  sudo sed -i "s/#Port 22/Port $3/g" /etc/ssh/sshd_config
   sudo echo "# Restrict ssh access to the specific users" >> /etc/ssh/sshd_config  
   sudo echo "AllowUsers $1" >> /etc/ssh/sshd_config
   sudo systemctl restart sshd.service
